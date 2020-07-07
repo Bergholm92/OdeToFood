@@ -28,6 +28,14 @@
             <td>@restaurant.Name</td>
             <td>@restaurant.Location</td>
             <td>@restaurant.Cuisine</td>
+            <td>
+                <a class="btn btn-group-lg"
+                   asp-page="./Detail"
+                   asp-route-restaurantID="@restaurant.Id"
+                   > 
+                    <i class="fa fa-search-plus" aria-hidden="true"></i>
+                </a>
+            </td>
 
         </tr>
     }
