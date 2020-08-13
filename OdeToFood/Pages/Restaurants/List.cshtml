@@ -31,9 +31,13 @@
             <td>
                 <a class="btn btn-group-lg"
                    asp-page="./Detail"
-                   asp-route-restaurantID="@restaurant.Id"
-                   > 
+                   asp-route-restaurantID="@restaurant.Id">
                     <i class="fa fa-search-plus" aria-hidden="true"></i>
+                </a>
+                <a class="btn btn-group-lg"
+                   asp-page="./Edit"
+                   asp-route-restaurantID="@restaurant.Id">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
                 </a>
             </td>
 
