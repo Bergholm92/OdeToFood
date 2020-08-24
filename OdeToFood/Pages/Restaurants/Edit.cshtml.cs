@@ -49,7 +49,12 @@ namespace OdeToFood.Pages.Restaurants
             return Page();
         }
 
-
+        /// <summary>
+        /// Den här metoden kontrollerar om den information som 
+        /// användaren fyller i på Edit sidan är korrekt. 
+        /// Om den är det så redirectar den till den specifika resturangens detalj-sidan. 
+        /// </summary>
+        /// <returns></returns>
         public IActionResult OnPost()
         {
 
@@ -57,6 +62,7 @@ namespace OdeToFood.Pages.Restaurants
             {
                 restaurantData.Update(Restaurant);
                 restaurantData.Commit();
+                return RedirectToPage("./Detail", new { restaurantId = Restaurant.Id });
             }
 
             Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
