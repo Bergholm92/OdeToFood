@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using static OdeToFood.Core.Restaurant;
+using System.ComponentModel;
 
 namespace OdeToFood.Data
 {
@@ -13,6 +14,8 @@ namespace OdeToFood.Data
         Restaurant GetById(int id);
 
         Restaurant Update(Restaurant updatedRestaurant);
+
+        Restaurant Add(Restaurant newRestaurant);
 
         int Commit();
     }
@@ -37,6 +40,19 @@ namespace OdeToFood.Data
         {
             return restaurants.SingleOrDefault(r => r.Id == id);
         }
+
+
+
+
+        public Restaurant Add(Restaurant newRestaurant)
+        {
+            restaurants.Add(newRestaurant);
+            newRestaurant.Id = restaurants.Max(r => r.Id) + 1;
+            return newRestaurant;
+        }
+
+
+
 
 
         public Restaurant Update(Restaurant updatedRestaurant)

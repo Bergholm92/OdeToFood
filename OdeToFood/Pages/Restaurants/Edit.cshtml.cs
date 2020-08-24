@@ -32,15 +32,29 @@ namespace OdeToFood.Pages.Restaurants
         /// <summary>
         /// Den här funktionen kontrollerar att det finns en resturang som det resturangId som behandlas,
         /// Om den restaurangen inte finns, så skickas användaren istället till sidan NotFound. 
+        /// 
+        ///Nu har den även stöd för att kontrollera om det skickas med ett id eller inte. 
+        ///Om det inte gör det, så skapas istället en ny resturang.
         /// </summary>
         /// <param name="restaurantId"></param>
         /// <returns></returns>
-        public IActionResult OnGet(int restaurantId)
+        public IActionResult OnGet(int? restaurantId)
         {
 
 
             Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
-            Restaurant = restaurantData.GetById(restaurantId);
+
+
+            if (restaurantId.HasValue)
+            {
+                Restaurant = restaurantData.GetById(restaurantId.Value);
+            }
+            else
+            {
+                Restaurant = new Restaurant();
+            }
+
+
             if (Restaurant == null)
             {
                 return RedirectToPage("./NotFound");
@@ -58,16 +72,24 @@ namespace OdeToFood.Pages.Restaurants
         public IActionResult OnPost()
         {
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                restaurantData.Update(Restaurant);
-                restaurantData.Commit();
-                return RedirectToPage("./Detail", new { restaurantId = Restaurant.Id });
+                Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
+                return Page();
             }
 
-            Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
+            if (Restaurant.Id > 0)
+            {
+                restaurantData.Update(Restaurant);
+            }
+            else
+            {
+                restaurantData.Add(Restaurant);
+            }
 
-            return Page();
+            restaurantData.Commit();
+            return RedirectToPage("./Detail", new { restaurantId = Restaurant.Id });
+
         }
 
 
